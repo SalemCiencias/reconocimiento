@@ -10,6 +10,7 @@ from rclpy.node import Node # Handles the creation of nodes
 from sensor_msgs.msg import Image # Image is the message type
 from cv_bridge import CvBridge # Package to convert between ROS and OpenCV Images
 import cv2 # OpenCV library
+import sys
  
 class ImagePublisher(Node):
   """
@@ -21,6 +22,8 @@ class ImagePublisher(Node):
     """
     # Initiate the Node class's constructor and give it a name
     super().__init__('image_publisher')
+
+    self.camara = int(sys.argv[1]) #cámara que se va a usar, argumento en linea de comando
       
     # Create the publisher. This publisher will publish an Image
     # to the video_frames topic. The queue size is 10 messages.
@@ -34,7 +37,7 @@ class ImagePublisher(Node):
          
     # Create a VideoCapture object
     # The argument '0' gets the default webcam.
-    self.cap = cv2.VideoCapture(0)
+    self.cap = cv2.VideoCapture(self.camara)
          
     # Used to convert between ROS and OpenCV images
     self.br = CvBridge()
